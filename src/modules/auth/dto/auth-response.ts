@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { TokenResponse } from './token-response.dto';
-import { type User } from '@prisma/client';
+import { TokenResponse } from './token-response';
+import { User } from 'src/modules/user/entities/user.entity';
 
 @ObjectType()
 export class AuthResponse extends TokenResponse {

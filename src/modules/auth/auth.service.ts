@@ -72,7 +72,21 @@ export class AuthService {
     };
   }
 
-  async updateRefreshId(userId: string, refreshId: string) {
+  async logout(userId: string) {
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        refreshId: null,
+      },
+    });
+    return {
+      message: 'Logged out successfully!',
+    };
+  }
+
+  private async updateRefreshId(userId: string, refreshId: string) {
     await this.prisma.user.update({
       where: {
         id: userId,
@@ -83,18 +97,7 @@ export class AuthService {
     });
   }
 
-  async logout(userId: string) {
-    await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        refreshId: null,
-      },
-    });
-  }
-
-  async generateTokens(userId: string, email: string) {
+  private async generateTokens(userId: string, email: string) {
     const payload: TokenPayload = {
       sub: userId,
       email,

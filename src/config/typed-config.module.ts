@@ -10,7 +10,7 @@ import { EnvSchema } from './env.validation';
     {
       provide: TypedConfigService,
       useFactory: (config: ConfigService<EnvSchema, true>) => {
-        new TypedConfigService(config);
+        return new TypedConfigService(config);
       },
       inject: [ConfigService],
     },

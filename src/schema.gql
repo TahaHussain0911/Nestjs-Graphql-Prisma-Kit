@@ -2,6 +2,53 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LogoutResponse {
+  message: String!
+}
+
+type Mutation {
+  login(input: LoginInput!): AuthResponse!
+  logout: LogoutResponse!
+  refreshTokens: TokenResponse!
+  register(input: RegisterInput!): AuthResponse!
+}
+
 type Query {
   hello: String!
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type TokenResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  name: String!
+  role: String!
+  updatedAt: DateTime!
 }

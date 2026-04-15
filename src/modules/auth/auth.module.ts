@@ -3,8 +3,12 @@ import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { JwtModule } from '@nestjs/jwt';
 import { TypedConfigService } from 'src/config/typed-config.service';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       inject: [TypedConfigService],
       useFactory: (config: TypedConfigService) => {
@@ -17,6 +21,6 @@ import { TypedConfigService } from 'src/config/typed-config.service';
       },
     }),
   ],
-  providers: [AuthResolver, AuthService],
+  providers: [AuthResolver, AuthService, JwtStrategy, RefreshTokenStrategy],
 })
 export class AuthModule {}
