@@ -9,16 +9,19 @@ import { LogoutResponse } from './dto/log-out-response';
 import { LoginInput } from './dto/login.input';
 import { RegisterInput } from './dto/register.input';
 import { TokenResponse } from './dto/token-response';
+import { IsPublic } from 'src/common/decorators/public.decorator';
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
+  @IsPublic()
   @Mutation(() => AuthResponse)
   register(@Args('input') registerInput: RegisterInput) {
     return this.authService.register(registerInput);
   }
 
+  @IsPublic()
   @Mutation(() => AuthResponse)
   login(@Args('input') loginInput: LoginInput) {
     return this.authService.login(loginInput);
@@ -39,6 +42,7 @@ export class AuthResolver {
     return this.authService.logout(userId);
   }
 
+  @IsPublic()
   @Query(() => String)
   hello() {
     return 'Hello world';

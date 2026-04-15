@@ -6,7 +6,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { TokenPayload } from '../types/token-payload';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     private readonly config: TypedConfigService,
     private readonly prisma: PrismaService,
