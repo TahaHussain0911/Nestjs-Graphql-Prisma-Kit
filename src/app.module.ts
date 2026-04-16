@@ -5,6 +5,8 @@ import { join } from 'path';
 import { TypedConfigModule } from './config/typed-config.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { MailModule } from './mail/mail.module';
 @Module({
   imports: [
     TypedConfigModule,
@@ -16,6 +18,8 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     PrismaModule,
     AuthModule,
+    UserModule,
+    MailModule,
   ],
   controllers: [],
   providers: [],

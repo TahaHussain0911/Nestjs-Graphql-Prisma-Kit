@@ -7,6 +7,10 @@ export const envSchema = z.object({
   JWT_SECRET: z.string(),
   JWT_EXPIRES_IN: z.string(),
   JWT_REFRESH_SECRET: z.string(),
+  SMTP_HOST: z.string(),
+  SMTP_EMAIL: z.string(),
+  SMTP_PASSWORD: z.string(),
+  BASE_URL: z.string(),
 });
 
 export type EnvSchema = z.infer<typeof envSchema>;

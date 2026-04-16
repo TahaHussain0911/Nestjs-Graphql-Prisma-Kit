@@ -30,7 +30,16 @@ type Mutation {
 }
 
 type Query {
+  findAll(query: QueryUser!): UserPaginatedResponse!
+  findOne(id: String!): UserResponse!
+  getCurrentUser: UserResponse!
   hello: String!
+}
+
+input QueryUser {
+  limit: Float! = 20
+  page: Float! = 1
+  search: String!
 }
 
 input RegisterInput {
@@ -51,4 +60,15 @@ type User {
   name: String!
   role: String!
   updatedAt: DateTime!
+}
+
+type UserPaginatedResponse {
+  limit: Float!
+  page: Float!
+  total: Float!
+  users: [User!]!
+}
+
+type UserResponse {
+  user: User!
 }
