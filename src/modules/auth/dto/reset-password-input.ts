@@ -1,16 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { DTOTrim } from 'src/utils/helper';
 
 @InputType()
-export class RegisterInput {
-  @Field()
-  @IsString()
-  @Transform(DTOTrim)
-  @IsNotEmpty()
-  name: string;
-
+export class ResetPasswordInput {
   @Field()
   @IsEmail()
   email: string;
@@ -19,5 +13,5 @@ export class RegisterInput {
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
-  password: string;
+  newPassword: string;
 }

@@ -9,6 +9,10 @@ import { LogoutResponse } from './dto/log-out-response';
 import { LoginInput } from './dto/login.input';
 import { RegisterInput } from './dto/register.input';
 import { TokenResponse } from './dto/token-response';
+import { ForgotPasswordInput } from './dto/forgot-password-input';
+import { VerifyOtpInput } from './dto/verify-otp-input';
+import { ResetPasswordInput } from './dto/reset-password-input';
+import { MessageResponse } from './dto/message-response';
 import { IsPublic } from 'src/common/decorators/public.decorator';
 
 @Resolver()
@@ -40,6 +44,30 @@ export class AuthResolver {
   @Mutation(() => LogoutResponse)
   logout(@CurrentUser('id') userId: string) {
     return this.authService.logout(userId);
+  }
+
+  @IsPublic()
+  @Mutation(() => MessageResponse)
+  forgotPassword(@Args('input') forgotPasswordInput: ForgotPasswordInput) {
+    return this.authService.forgotPassword(forgotPasswordInput);
+  }
+
+  @IsPublic()
+  @Mutation(() => MessageResponse)
+  resendOtp(@Args('input') forgotPasswordInput: ForgotPasswordInput) {
+    return this.authService.resendOtp(forgotPasswordInput);
+  }
+
+  @IsPublic()
+  @Mutation(() => MessageResponse)
+  verifyOtp(@Args('input') verifyOtpInput: VerifyOtpInput) {
+    return this.authService.verifyOtp(verifyOtpInput);
+  }
+
+  @IsPublic()
+  @Mutation(() => MessageResponse)
+  resetPassword(@Args('input') resetPasswordInput: ResetPasswordInput) {
+    return this.authService.resetPassword(resetPasswordInput);
   }
 
   @IsPublic()
