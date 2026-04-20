@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { MailModule } from './mail/mail.module';
 import { UploadModule } from './modules/upload/upload.module';
+import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
 @Module({
   imports: [
     TypedConfigModule,
@@ -16,6 +17,7 @@ import { UploadModule } from './modules/upload/upload.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: true,
       sortSchema: true,
+      resolvers: { Upload: GraphQLUpload },
     }),
     PrismaModule,
     AuthModule,
