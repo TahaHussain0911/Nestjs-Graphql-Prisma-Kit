@@ -11,6 +11,10 @@ export const envSchema = z.object({
   SMTP_EMAIL: z.string(),
   SMTP_PASSWORD: z.string(),
   BASE_URL: z.string(),
+  AWS_S3_REGION: z.string(),
+  AWS_S3_BUCKET_NAME: z.string(),
+  AWS_S3_ACCESS_KEY_ID: z.string(),
+  AWS_S3_SECRET_KEY: z.string(),
 });
 
 export type EnvSchema = z.infer<typeof envSchema>;

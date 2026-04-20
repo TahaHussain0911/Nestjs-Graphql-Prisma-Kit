@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { MailModule } from './mail/mail.module';
+import { UploadModule } from './modules/upload/upload.module';
 @Module({
   imports: [
     TypedConfigModule,
@@ -20,6 +21,7 @@ import { MailModule } from './mail/mail.module';
     AuthModule,
     UserModule,
     MailModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],
