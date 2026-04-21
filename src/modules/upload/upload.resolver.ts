@@ -8,22 +8,19 @@ import {
 import { FileUpload } from 'graphql-upload/processRequest.mjs';
 import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
 import { graphqlFileToMulterFile } from 'src/utils/graphql-file.util';
+import { IsPublic } from 'src/common/decorators/public.decorator';
 
 @Resolver()
 export class UploadResolver {
   constructor(private readonly uploadService: UploadService) {}
 
+  @IsPublic()
   @Mutation(() => [UploadFileResponse])
-  // @UseGuards(GqlAuthGuard)
   async uploadFiles(
     @Args({ name: 'files', type: () => [GraphQLUpload] })
     files: Promise<FileUpload>[],
-    // @CurrentUser() user?: { id: string },
   ): Promise<UploadFileResponse[]> {
-    // Resolve all file promises
     const resolvedFiles = await Promise.all(files);
-
-    // Convert to multer files
     const multerFiles = await Promise.all(
       resolvedFiles.map((file) => graphqlFileToMulterFile(file)),
     );
@@ -31,6 +28,7 @@ export class UploadResolver {
     return this.uploadService.uploadFiles(multerFiles /*, user?.id */);
   }
 
+  @IsPublic()
   @Mutation(() => [SignedUrlResponse])
   async getSignedUploadUrls(
     @Args('input') input: SignedUrlInput,
@@ -38,6 +36,7 @@ export class UploadResolver {
     return this.uploadService.getSignedUrls(input);
   }
 
+  @IsPublic()
   @Query(() => SignedUrlResponse)
   async getFileUrl(
     @Args('key', { type: () => String }) key: string,
@@ -45,6 +44,7 @@ export class UploadResolver {
     return this.uploadService.readFile(key);
   }
 
+  @IsPublic()
   @Mutation(() => Boolean)
   async deleteFile(
     @Args('key', { type: () => String }) key: string,
