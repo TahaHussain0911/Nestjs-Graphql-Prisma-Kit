@@ -62,7 +62,64 @@ export class CategoryService {
     return { category };
   }
 
-  async findAll(queryCategoryInput: QueryCategoryInput) {}
+  async findAll(queryCategoryInput: QueryCategoryInput) {
+    const { search, page = 1, limit = 20 } = queryCategoryInput;
+
+    const where: Prisma.CategoryWhereInput = {};
+    if (search) {
+      where.OR = [
+        {
+          title: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+      ];
+    }
+
+    const [total, data] = await Promise.all([
+      this.prisma.category.count({ where }),
+      this.prisma.category.findMany({
+        where,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+    ]);
+    return {
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+      data,
+    };
+  }
+
+  async delete(id: string) {
+    const category = await this.prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+    await this.prisma.category.delete({
+      where: {
+        id,
+      },
+    });
+    return {
+      category,
+    };
+  }
 
   private async validateSlug(title: string): Promise<string> {
     const slug = createSlug(title);

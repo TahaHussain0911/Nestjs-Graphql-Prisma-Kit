@@ -26,7 +26,7 @@ export class UserService {
         },
       ];
     }
-    const [total, users] = await Promise.all([
+    const [total, data] = await Promise.all([
       this.prisma.user.count({ where }),
       this.prisma.user.findMany({
         where,
@@ -38,10 +38,10 @@ export class UserService {
       }),
     ]);
     return {
-      users,
+      data,
       total,
       page,
-      limit,
+      totalPages: Math.ceil(total / limit),
     };
   }
 

@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { User } from '../entities/user.entity';
+import { PaginationResponse } from 'src/common/dto/pagination-response';
 
 @ObjectType()
 export class UserResponse {
@@ -8,16 +9,7 @@ export class UserResponse {
 }
 
 @ObjectType()
-export class UserPaginatedResponse {
+export class UserPaginatedResponse extends PaginationResponse {
   @Field(() => [User])
-  users: User[];
-
-  @Field()
-  page: number;
-
-  @Field()
-  limit: number;
-
-  @Field()
-  total: number;
+  data: User[];
 }
