@@ -3,6 +3,7 @@ import { Transform, Type } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
@@ -22,17 +23,23 @@ export class CreateProductInput {
   @MaxLength(100)
   title: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @Transform(DTOTrim)
   @MaxLength(255)
   description?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   imageUrl?: string;
+
+  @Field()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  price: number;
 
   @Field()
   @IsString()

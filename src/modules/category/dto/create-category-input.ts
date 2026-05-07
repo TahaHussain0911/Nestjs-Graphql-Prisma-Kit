@@ -12,14 +12,14 @@ export class CreateCategoryInput {
   @MaxLength(100)
   title: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @Transform(DTOTrim)
   @MaxLength(255)
   description?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   imageUrl?: string;
