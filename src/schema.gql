@@ -10,10 +10,11 @@ type AuthResponse {
 
 type Category {
   createdAt: DateTime!
-  description: String!
+  description: String
   id: String!
-  imageUrl: String!
+  imageUrl: String
   isActive: Boolean!
+  slug: String!
   title: String!
   updatedAt: DateTime!
 }
@@ -29,9 +30,13 @@ type CategoryResponse {
   category: Category!
 }
 
-input CreateCategoryInput {
-  description: String!
-  imageUrl: String!
+input CreateProductInput {
+  categoryId: String!
+  description: String
+  imageUrl: String
+  price: Float!
+  sku: String!
+  stock: Float!
   title: String!
 }
 
@@ -64,7 +69,8 @@ type MessageResponse {
 }
 
 type Mutation {
-  create(input: CreateCategoryInput!): CategoryResponse!
+  create(input: CreateProductInput!): ProductResponse!
+  delete(id: String!): ProductResponse!
   deleteFile(key: String!): Boolean!
   forgotPassword(input: ForgotPasswordInput!): MessageResponse!
   getSignedUploadUrls(input: SignedUrlInput!): [SignedUrlResponse!]!
@@ -74,24 +80,49 @@ type Mutation {
   register(input: RegisterInput!): AuthResponse!
   resendOtp(input: ForgotPasswordInput!): MessageResponse!
   resetPassword(input: ResetPasswordInput!): MessageResponse!
-  update(input: UpdateCategoryInput!): CategoryResponse!
+  update(input: UpdateProductInput!): ProductResponse!
   uploadFiles(files: [Upload!]!): [UploadFileResponse!]!
   verifyOtp(input: VerifyOtpInput!): MessageResponse!
 }
 
+type Product {
+  category: Category!
+  createdAt: DateTime!
+  description: String
+  id: String!
+  imageUrl: String
+  isActive: Boolean!
+  price: Float!
+  sku: String!
+  stock: Float!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type ProductPaginatedResponse {
+  data: [Product!]!
+  page: Float!
+  total: Float!
+  totalPages: Float!
+}
+
+type ProductResponse {
+  product: Product!
+}
+
 type Query {
-  delete(id: String!): CategoryResponse!
-  findAll(query: QueryCategoryInput!): CategoryPaginatedResponse!
-  findOne(id: String!): CategoryResponse!
+  findAll(query: QueryProductInput!): ProductPaginatedResponse!
+  findOne(id: String!): ProductResponse!
   getCurrentUser: UserResponse!
   getFileUrl(key: String!): SignedUrlResponse!
   hello: String!
 }
 
-input QueryCategoryInput {
+input QueryProductInput {
+  categoryId: String
   limit: Float! = 20
   page: Float! = 1
-  search: String!
+  search: String
 }
 
 input RegisterInput {
@@ -119,11 +150,15 @@ type TokenResponse {
   refreshToken: String!
 }
 
-input UpdateCategoryInput {
+input UpdateProductInput {
+  categoryId: String
   description: String
   id: String!
   imageUrl: String
-  isActive: Boolean!
+  isActive: Boolean
+  price: Float
+  sku: String
+  stock: Float
   title: String
 }
 

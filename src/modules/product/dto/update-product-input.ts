@@ -10,7 +10,7 @@ export class UpdateProductInput extends PartialType(CreateProductInput) {
   @IsUUID()
   id: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @Transform(DTOBoolean)
   @IsBoolean()

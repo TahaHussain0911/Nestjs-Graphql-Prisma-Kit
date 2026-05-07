@@ -10,7 +10,7 @@ export class UpdateCategoryInput extends PartialType(CreateCategoryInput) {
   @IsUUID()
   id: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @Transform(DTOBoolean)
   @IsBoolean()

@@ -6,7 +6,7 @@ import { DTOTrim } from 'src/utils/helper';
 
 @InputType()
 export class QueryCategoryInput extends PaginationQuery {
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @Transform(DTOTrim)

@@ -17,7 +17,7 @@ export class ProductService {
   async create(createProductInput: CreateProductInput) {
     await this.validateSKU(createProductInput.sku);
     await this.validateCategory(createProductInput.categoryId);
-    return this.prisma.product.create({
+    const product = await this.prisma.product.create({
       data: {
         ...createProductInput,
         price: new Prisma.Decimal(createProductInput.price),
@@ -26,6 +26,9 @@ export class ProductService {
         category: true,
       },
     });
+    return {
+      product,
+    };
   }
 
   async update(updateProductInput: UpdateProductInput) {
@@ -49,7 +52,7 @@ export class ProductService {
     if (price) {
       productUpdateFields.price = new Prisma.Decimal(price);
     }
-    return this.prisma.product.update({
+    const updatedProduct = await this.prisma.product.update({
       where: {
         id,
       },
@@ -58,6 +61,9 @@ export class ProductService {
         category: true,
       },
     });
+    return {
+      product: updatedProduct,
+    };
   }
 
   async delete(id: string) {

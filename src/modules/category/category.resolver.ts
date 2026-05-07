@@ -31,6 +31,12 @@ export class CategoryResolver {
     return this.categoryService.update(updateCategoryInput);
   }
 
+  @Roles(Role.ADMIN)
+  @Mutation(() => CategoryResponse)
+  delete(@Args('id') id: string) {
+    return this.categoryService.delete(id);
+  }
+
   @IsPublic()
   @Query(() => CategoryResponse)
   findOne(@Args('id') id: string) {
@@ -41,11 +47,5 @@ export class CategoryResolver {
   @Query(() => CategoryPaginatedResponse)
   findAll(@Args('query') queryCategoryInput: QueryCategoryInput) {
     return this.categoryService.findAll(queryCategoryInput);
-  }
-
-  @IsPublic()
-  @Query(() => CategoryResponse)
-  delete(@Args('id') id: string) {
-    return this.categoryService.delete(id);
   }
 }
