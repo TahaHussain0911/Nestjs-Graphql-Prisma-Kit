@@ -9,6 +9,7 @@ import { UserModule } from './modules/user/user.module';
 import { MailModule } from './mail/mail.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { CategoryModule } from './modules/category/category.module';
+import { ProductModule } from './modules/product/product.module';
 import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
     MailModule,
     UploadModule,
     CategoryModule,
+    ProductModule,
   ],
   controllers: [],
   providers: [],

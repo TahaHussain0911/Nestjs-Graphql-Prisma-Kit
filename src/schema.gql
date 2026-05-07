@@ -8,10 +8,47 @@ type AuthResponse {
   user: User!
 }
 
+type Category {
+  createdAt: DateTime!
+  description: String!
+  id: String!
+  imageUrl: String!
+  isActive: Boolean!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type CategoryPaginatedResponse {
+  data: [Category!]!
+  page: Float!
+  total: Float!
+  totalPages: Float!
+}
+
+type CategoryResponse {
+  category: Category!
+}
+
+input CreateCategoryInput {
+  description: String!
+  imageUrl: String!
+  title: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input FileMetadataInput {
+  fileName: String!
+  fileSize: Float!
+  fileType: String!
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
 
 input LoginInput {
   email: String!
@@ -22,21 +59,36 @@ type LogoutResponse {
   message: String!
 }
 
+type MessageResponse {
+  message: String!
+}
+
 type Mutation {
+  create(input: CreateCategoryInput!): CategoryResponse!
+  deleteFile(key: String!): Boolean!
+  forgotPassword(input: ForgotPasswordInput!): MessageResponse!
+  getSignedUploadUrls(input: SignedUrlInput!): [SignedUrlResponse!]!
   login(input: LoginInput!): AuthResponse!
   logout: LogoutResponse!
   refreshTokens: TokenResponse!
   register(input: RegisterInput!): AuthResponse!
+  resendOtp(input: ForgotPasswordInput!): MessageResponse!
+  resetPassword(input: ResetPasswordInput!): MessageResponse!
+  update(input: UpdateCategoryInput!): CategoryResponse!
+  uploadFiles(files: [Upload!]!): [UploadFileResponse!]!
+  verifyOtp(input: VerifyOtpInput!): MessageResponse!
 }
 
 type Query {
-  findAll(query: QueryUser!): UserPaginatedResponse!
-  findOne(id: String!): UserResponse!
+  delete(id: String!): CategoryResponse!
+  findAll(query: QueryCategoryInput!): CategoryPaginatedResponse!
+  findOne(id: String!): CategoryResponse!
   getCurrentUser: UserResponse!
+  getFileUrl(key: String!): SignedUrlResponse!
   hello: String!
 }
 
-input QueryUser {
+input QueryCategoryInput {
   limit: Float! = 20
   page: Float! = 1
   search: String!
@@ -48,9 +100,39 @@ input RegisterInput {
   password: String!
 }
 
+input ResetPasswordInput {
+  email: String!
+  newPassword: String!
+}
+
+input SignedUrlInput {
+  files: [FileMetadataInput!]!
+}
+
+type SignedUrlResponse {
+  key: String!
+  url: String!
+}
+
 type TokenResponse {
   accessToken: String!
   refreshToken: String!
+}
+
+input UpdateCategoryInput {
+  description: String
+  id: String!
+  imageUrl: String
+  isActive: Boolean!
+  title: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type UploadFileResponse {
+  fileName: String!
+  key: String!
 }
 
 type User {
@@ -63,12 +145,17 @@ type User {
 }
 
 type UserPaginatedResponse {
-  limit: Float!
+  data: [User!]!
   page: Float!
   total: Float!
-  users: [User!]!
+  totalPages: Float!
 }
 
 type UserResponse {
   user: User!
+}
+
+input VerifyOtpInput {
+  email: String!
+  otp: String!
 }

@@ -42,9 +42,28 @@ model Category {
   slug        String  @unique
   isActive    Boolean @default(true)
 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+
+  @@index([slug])
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String?
+  sku         String  @unique
+  stock       Int     @default(0)
+  isActive    Boolean @default(true)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([slug])
-  @@index([isActive])
+  @@index([sku])
+  @@index([categoryId])
 }

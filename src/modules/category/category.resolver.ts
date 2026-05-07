@@ -12,6 +12,7 @@ import { Role } from '@prisma/client';
 import { UpdateCategoryInput } from './dto/update-category-input';
 import { IsPublic } from 'src/common/decorators/public.decorator';
 import { QueryCategoryInput } from './dto/query-category-input';
+import { CreateCategoryInput } from './dto/create-category-input';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Resolver()
@@ -20,7 +21,7 @@ export class CategoryResolver {
 
   @Roles(Role.ADMIN)
   @Mutation(() => CategoryResponse)
-  create(@Args('input') createCategoryInput) {
+  create(@Args('input') createCategoryInput: CreateCategoryInput) {
     return this.categoryService.create(createCategoryInput);
   }
 

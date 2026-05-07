@@ -30,6 +30,6 @@ export class UploadService {
     files: Express.Multer.File[],
     userId?: string,
   ): Promise<UploadFileResponse[]> {
-    return this.uploadFiles(files, userId);
+    return this.objectStorage.uploadFiles(files, userId);
   }
 }

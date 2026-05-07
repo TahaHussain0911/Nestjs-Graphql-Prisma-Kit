@@ -74,7 +74,7 @@ export class ObjectStorage {
   ): Promise<SignedUrlResponse[]> {
     const results: SignedUrlResponse[] = [];
     for (const file of files) {
-      if (this.validateFileType(file.fileType)) {
+      if (!this.validateFileType(file.fileType)) {
         throw new BadRequestException(
           `Invalid file type for file: ${file.fileName}`,
         );
